@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 
+type MCQQuestion = { text: string; options: string[]; correctIndex: number };
 type Quiz = {
   id: string;
   title: string;
   description?: string;
-  questions: string[];
+  timeLimitSeconds?: number;
+  questions: MCQQuestion[];
   createdAt: string;
 };
 

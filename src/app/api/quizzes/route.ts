@@ -16,18 +16,22 @@ export async function POST(request: Request) {
 
   // Validate MCQ questions
   const mcqs: MCQQuestion[] = [];
-  for (const q of questions as any[]) {
-    if (!q || typeof q.text !== "string" || !Array.isArray(q.options) || typeof q.correctIndex !== "number") {
+  for (const q of questions as unknown[]) {
+    if (!q || typeof q !== "object" || q === null) {
       return NextResponse.json({ error: "Invalid question format" }, { status: 400 });
     }
-    const options = q.options.map((o: any) => String(o)).filter((o: string) => o.length > 0);
+    const question = q as Record<string, unknown>;
+    if (typeof question.text !== "string" || !Array.isArray(question.options) || typeof question.correctIndex !== "number") {
+      return NextResponse.json({ error: "Invalid question format" }, { status: 400 });
+    }
+    const options = question.options.map((o: unknown) => String(o)).filter((o: string) => o.length > 0);
     if (options.length < 2) {
       return NextResponse.json({ error: "Each question needs at least 2 options" }, { status: 400 });
     }
-    if (q.correctIndex < 0 || q.correctIndex >= options.length) {
+    if (question.correctIndex < 0 || question.correctIndex >= options.length) {
       return NextResponse.json({ error: "correctIndex out of range" }, { status: 400 });
     }
-    mcqs.push({ text: q.text, options, correctIndex: q.correctIndex });
+    mcqs.push({ text: question.text, options, correctIndex: question.correctIndex });
   }
 
   const newQuiz: Quiz = {

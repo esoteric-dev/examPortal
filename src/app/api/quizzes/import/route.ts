@@ -8,26 +8,34 @@ type IncomingQuiz = {
   questions: Array<{ text: string; options: string[]; correctIndex: number }>;
 };
 
-function validateQuiz(payload: any): { ok: true; quiz: Omit<Quiz, "id" | "createdAt"> } | { ok: false; error: string } {
-  if (!payload || typeof payload.title !== "string" || !Array.isArray(payload.questions) || payload.questions.length === 0) {
+function validateQuiz(payload: unknown): { ok: true; quiz: Omit<Quiz, "id" | "createdAt"> } | { ok: false; error: string } {
+  if (!payload || typeof payload !== "object" || payload === null) {
+    return { ok: false, error: "Invalid quiz payload" };
+  }
+  const p = payload as Record<string, unknown>;
+  if (typeof p.title !== "string" || !Array.isArray(p.questions) || p.questions.length === 0) {
     return { ok: false, error: "Invalid quiz payload" };
   }
   const mcqs: MCQQuestion[] = [];
-  for (const q of payload.questions) {
-    if (!q || typeof q.text !== "string" || !Array.isArray(q.options) || typeof q.correctIndex !== "number") {
+  for (const q of p.questions as unknown[]) {
+    if (!q || typeof q !== "object" || q === null) {
       return { ok: false, error: "Invalid question format" };
     }
-    const options = q.options.map((o: any) => String(o)).filter((o: string) => o.length > 0);
+    const question = q as Record<string, unknown>;
+    if (typeof question.text !== "string" || !Array.isArray(question.options) || typeof question.correctIndex !== "number") {
+      return { ok: false, error: "Invalid question format" };
+    }
+    const options = question.options.map((o: unknown) => String(o)).filter((o: string) => o.length > 0);
     if (options.length < 2) return { ok: false, error: "Each question requires at least 2 options" };
-    if (q.correctIndex < 0 || q.correctIndex >= options.length) return { ok: false, error: "correctIndex out of range" };
-    mcqs.push({ text: q.text, options, correctIndex: q.correctIndex });
+    if (question.correctIndex < 0 || question.correctIndex >= options.length) return { ok: false, error: "correctIndex out of range" };
+    mcqs.push({ text: question.text, options, correctIndex: question.correctIndex });
   }
   return {
     ok: true,
     quiz: {
-      title: String(payload.title),
-      description: payload.description ? String(payload.description) : undefined,
-      timeLimitSeconds: typeof payload.timeLimitSeconds === "number" ? payload.timeLimitSeconds : undefined,
+      title: String(p.title),
+      description: p.description ? String(p.description) : undefined,
+      timeLimitSeconds: typeof p.timeLimitSeconds === "number" ? p.timeLimitSeconds : undefined,
       questions: mcqs,
     },
   };

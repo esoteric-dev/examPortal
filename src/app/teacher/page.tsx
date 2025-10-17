@@ -85,7 +85,7 @@ export default function TeacherHome() {
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
-        const data = await res.json().catch(() => ({} as any));
+        const data = await res.json().catch(() => ({} as Record<string, unknown>));
         throw new Error(data?.error || "Import failed");
       }
       await fetchQuizzes();

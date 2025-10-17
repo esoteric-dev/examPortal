@@ -51,7 +51,14 @@ export default function TakeQuizPage() {
     if (remaining <= 0) {
       // auto submit
       (async () => {
-        if (!submitting) await handleSubmit(new Event("submit") as any);
+        if (!submitting) {
+          const mockFormEvent = {
+            preventDefault: () => {},
+            target: null,
+            currentTarget: null,
+          } as unknown as React.FormEvent;
+          await handleSubmit(mockFormEvent);
+        }
       })();
       return;
     }
@@ -60,7 +67,7 @@ export default function TakeQuizPage() {
     return () => {
       if (tickRef.current) window.clearTimeout(tickRef.current);
     };
-  }, [remaining]);
+  }, [remaining, submitting, handleSubmit]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

@@ -47,20 +47,21 @@ async function ensureDataFiles(): Promise<void> {
 export async function readQuizzes(): Promise<Quiz[]> {
   await ensureDataFiles();
   const raw = await fs.readFile(quizzesFile, "utf-8");
-  const parsed = JSON.parse(raw) as any[];
+  const parsed = JSON.parse(raw) as unknown[];
   // Best-effort normalization in case of older shape
   return parsed.map((q) => {
-    if (Array.isArray(q?.questions) && typeof q.questions[0] === "string") {
+    const quiz = q as Record<string, unknown>;
+    if (Array.isArray(quiz?.questions) && typeof quiz.questions[0] === "string") {
       return {
-        ...q,
-        questions: (q.questions as string[]).map((text: string) => ({
+        ...quiz,
+        questions: (quiz.questions as string[]).map((text: string) => ({
           text,
           options: ["Option A", "Option B", "Option C", "Option D"],
           correctIndex: 0,
         })),
       } as Quiz;
     }
-    return q as Quiz;
+    return quiz as Quiz;
   });
 }
 

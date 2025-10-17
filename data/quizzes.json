@@ -1,0 +1,431 @@
+[
+  {
+    "id": "1760708940118-ttfl18",
+    "createdAt": "2025-10-17T13:49:00.118Z",
+    "title": "Algebra Quiz",
+    "description": "Test your basic algebra skills",
+    "timeLimitSeconds": 600,
+    "questions": [
+      {
+        "text": "What is 2 + 2?",
+        "options": [
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 5 * 3?",
+        "options": [
+          "10",
+          "15",
+          "20",
+          "25"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "Solve for x: 2x = 6",
+        "options": [
+          "x = 2",
+          "x = 3",
+          "x = 4",
+          "x = 5"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 9 - 4?",
+        "options": [
+          "3",
+          "5",
+          "6",
+          "7"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "Solve for x: 3x + 4 = 10",
+        "options": [
+          "x = 2",
+          "x = 3",
+          "x = 4",
+          "x = 5"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "text": "What is 12 ÷ 4?",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 7 * 6?",
+        "options": [
+          "40",
+          "42",
+          "44",
+          "48"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is the value of 5^2?",
+        "options": [
+          "25",
+          "30",
+          "35",
+          "40"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "text": "Solve for x: 4x - 3 = 9",
+        "options": [
+          "x = 3",
+          "x = 2",
+          "x = 4",
+          "x = 5"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 3 * 7?",
+        "options": [
+          "20",
+          "21",
+          "22",
+          "23"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "Simplify: 6x + 2x",
+        "options": [
+          "8x",
+          "12x",
+          "6x",
+          "10x"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "text": "Solve for x: 5x - 2 = 8",
+        "options": [
+          "x = 2",
+          "x = 1",
+          "x = 3",
+          "x = 4"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "text": "What is 10 ÷ 2?",
+        "options": [
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "text": "Solve for x: 3x = 15",
+        "options": [
+          "x = 4",
+          "x = 5",
+          "x = 6",
+          "x = 7"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 7 + 8?",
+        "options": [
+          "12",
+          "14",
+          "15",
+          "16"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "text": "What is the value of 3^3?",
+        "options": [
+          "27",
+          "28",
+          "30",
+          "32"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "text": "Solve for x: 2x + 3 = 11",
+        "options": [
+          "x = 3",
+          "x = 4",
+          "x = 5",
+          "x = 6"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 4 + 6?",
+        "options": [
+          "9",
+          "10",
+          "11",
+          "12"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 5 - 3?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 6x - 2x?",
+        "options": [
+          "2x",
+          "4x",
+          "6x",
+          "8x"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "Solve for x: 4x + 7 = 15",
+        "options": [
+          "x = 2",
+          "x = 3",
+          "x = 4",
+          "x = 5"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "text": "What is 8 ÷ 2?",
+        "options": [
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "Solve for x: 3x - 9 = 0",
+        "options": [
+          "x = 3",
+          "x = 2",
+          "x = 1",
+          "x = 0"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "text": "Simplify: 2x + 3x",
+        "options": [
+          "5x",
+          "6x",
+          "7x",
+          "8x"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "text": "What is the value of 6^2?",
+        "options": [
+          "35",
+          "36",
+          "37",
+          "38"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 9 ÷ 3?",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "Solve for x: 7x + 1 = 15",
+        "options": [
+          "x = 2",
+          "x = 3",
+          "x = 4",
+          "x = 5"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 2^3?",
+        "options": [
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "text": "What is 6 + 8?",
+        "options": [
+          "12",
+          "13",
+          "14",
+          "15"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "text": "Solve for x: 5x + 5 = 25",
+        "options": [
+          "x = 3",
+          "x = 4",
+          "x = 5",
+          "x = 6"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 10 - 2?",
+        "options": [
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "Simplify: 3x + 4x",
+        "options": [
+          "7x",
+          "6x",
+          "8x",
+          "9x"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "text": "Solve for x: 2x + 5 = 9",
+        "options": [
+          "x = 1",
+          "x = 2",
+          "x = 3",
+          "x = 4"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 15 ÷ 3?",
+        "options": [
+          "4",
+          "5",
+          "6",
+          "7"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 4^2?",
+        "options": [
+          "12",
+          "14",
+          "16",
+          "18"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "text": "Solve for x: 6x - 2 = 16",
+        "options": [
+          "x = 3",
+          "x = 4",
+          "x = 5",
+          "x = 6"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 5^3?",
+        "options": [
+          "120",
+          "125",
+          "130",
+          "135"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "Solve for x: 2x - 6 = 8",
+        "options": [
+          "x = 4",
+          "x = 5",
+          "x = 6",
+          "x = 7"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "text": "What is 8 * 5?",
+        "options": [
+          "40",
+          "42",
+          "45",
+          "48"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "text": "Simplify: 7x + 3x",
+        "options": [
+          "9x",
+          "10x",
+          "11x",
+          "12x"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "text": "Solve for x: 3x - 4 = 8",
+        "options": [
+          "x = 3",
+          "x = 4",
+          "x = 5",
+          "x = 6"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "text": "What is 5 + 6?",
+        "options": [
+          "10",
+          "11",
+          "12",
+          "13"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+]

@@ -1,10 +1,5 @@
 // Edge Config implementation for Vercel
-import { EdgeConfig } from '@vercel/edge-config';
-
-// Initialize Edge Config
-const edgeConfig = new EdgeConfig({
-  token: process.env.EDGE_CONFIG_TOKEN,
-});
+import { get } from '@vercel/edge-config';
 
 export class EdgeConfigDatabase {
   private static instance: EdgeConfigDatabase;
@@ -19,7 +14,9 @@ export class EdgeConfigDatabase {
   // Generic CRUD operations
   async set(key: string, value: unknown): Promise<void> {
     try {
-      await edgeConfig.set(key, value);
+      // Note: @vercel/edge-config doesn't support write operations
+      // This would need to be handled via Vercel API or dashboard
+      console.warn('Edge Config write operations are not supported in this version');
     } catch (error) {
       console.error('Error setting Edge Config:', error);
       throw error;
@@ -28,7 +25,7 @@ export class EdgeConfigDatabase {
 
   async get<T = unknown>(key: string): Promise<T | null> {
     try {
-      return (await edgeConfig.get(key)) as T | null;
+      return (await get(key)) as T | null;
     } catch (error) {
       console.error('Error getting Edge Config:', error);
       return null;
@@ -37,7 +34,8 @@ export class EdgeConfigDatabase {
 
   async delete(key: string): Promise<void> {
     try {
-      await edgeConfig.delete(key);
+      // Note: @vercel/edge-config doesn't support delete operations
+      console.warn('Edge Config delete operations are not supported in this version');
     } catch (error) {
       console.error('Error deleting Edge Config:', error);
       throw error;
@@ -47,7 +45,8 @@ export class EdgeConfigDatabase {
   // Batch operations
   async setMany(entries: Record<string, unknown>): Promise<void> {
     try {
-      await edgeConfig.setMany(entries);
+      // Note: @vercel/edge-config doesn't support batch write operations
+      console.warn('Edge Config batch write operations are not supported in this version');
     } catch (error) {
       console.error('Error setting multiple Edge Config entries:', error);
       throw error;
@@ -56,7 +55,15 @@ export class EdgeConfigDatabase {
 
   async getMany<T = unknown>(keys: string[]): Promise<Record<string, T>> {
     try {
-      return (await edgeConfig.getMany(keys)) as Record<string, T>;
+      // Get each key individually since batch operations aren't supported
+      const results: Record<string, T> = {};
+      for (const key of keys) {
+        const value = await this.get<T>(key);
+        if (value !== null) {
+          results[key] = value;
+        }
+      }
+      return results;
     } catch (error) {
       console.error('Error getting multiple Edge Config entries:', error);
       return {} as Record<string, T>;

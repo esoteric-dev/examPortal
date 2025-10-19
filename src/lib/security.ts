@@ -226,7 +226,10 @@ export async function withRateLimit(
   limit: number = 10,
   windowMs: number = 60000
 ): Promise<{ allowed: boolean; error?: never } | { allowed?: never; error: Response }> {
-  const identifier = request.ip || 'unknown';
+  // Get IP from headers or use unknown as fallback
+  const forwarded = request.headers.get('x-forwarded-for');
+  const identifier = forwarded ? forwarded.split(',')[0].trim() : 
+    request.headers.get('x-real-ip') || 'unknown';
   const allowed = await security.checkRateLimit(identifier, limit, windowMs);
   
   if (!allowed) {

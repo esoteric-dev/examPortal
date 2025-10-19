@@ -83,7 +83,7 @@ export class Database {
   }
 
   async getUserByEmail(email: string): Promise<User | null> {
-    const userId = await this.getEdgeConfig(`user:email:${email}`);
+    const userId = await this.getEdgeConfig<string>(`user:email:${email}`);
     if (!userId) return null;
     return await this.getUserById(userId);
   }
@@ -119,7 +119,7 @@ export class Database {
   }
 
   async getAllQuizzes(): Promise<Quiz[]> {
-    const quizIds = await this.getEdgeConfig(`quizzes:all`) || [];
+    const quizIds = await this.getEdgeConfig<string[]>(`quizzes:all`) || [];
     const quizzes = await Promise.all(
       quizIds.map(id => this.getQuizById(id))
     );
@@ -127,7 +127,7 @@ export class Database {
   }
 
   async getQuizzesByTeacher(teacherId: string): Promise<Quiz[]> {
-    const quizIds = await this.getEdgeConfig(`quizzes:by:${teacherId}`) || [];
+    const quizIds = await this.getEdgeConfig<string[]>(`quizzes:by:${teacherId}`) || [];
     const quizzes = await Promise.all(
       quizIds.map(id => this.getQuizById(id))
     );
@@ -174,7 +174,7 @@ export class Database {
   }
 
   async getSubmissionsByStudent(studentId: string): Promise<QuizSubmission[]> {
-    const submissionIds = await this.getEdgeConfig(`submissions:student:${studentId}`) || [];
+    const submissionIds = await this.getEdgeConfig<string[]>(`submissions:student:${studentId}`) || [];
     const submissions = await Promise.all(
       submissionIds.map(id => this.getSubmissionById(id))
     );
@@ -182,7 +182,7 @@ export class Database {
   }
 
   async getSubmissionsByQuiz(quizId: string): Promise<QuizSubmission[]> {
-    const submissionIds = await this.getEdgeConfig(`submissions:quiz:${quizId}`) || [];
+    const submissionIds = await this.getEdgeConfig<string[]>(`submissions:quiz:${quizId}`) || [];
     const submissions = await Promise.all(
       submissionIds.map(id => this.getSubmissionById(id))
     );
@@ -192,10 +192,10 @@ export class Database {
   async getAllSubmissions(): Promise<QuizSubmission[]> {
     // This is a simplified implementation
     // In production, you'd want to maintain a global submissions index
-    const allKeys = await this.getEdgeConfig('_all_keys') || [];
+    const allKeys = await this.getEdgeConfig<string[]>('_all_keys') || [];
     const submissionKeys = allKeys.filter((key: string) => key.startsWith('submission:'));
     const submissions = await Promise.all(
-      submissionKeys.map(key => this.getEdgeConfig(key))
+      submissionKeys.map(key => this.getEdgeConfig<QuizSubmission>(key))
     );
     return submissions.filter(submission => submission !== null) as QuizSubmission[];
   }
@@ -220,7 +220,7 @@ export class Database {
   }
 
   async getAttemptsByStudent(studentId: string): Promise<QuizAttempt[]> {
-    const attemptIds = await this.getEdgeConfig(`attempts:student:${studentId}`) || [];
+    const attemptIds = await this.getEdgeConfig<string[]>(`attempts:student:${studentId}`) || [];
     const attempts = await Promise.all(
       attemptIds.map(id => this.getAttemptById(id))
     );
@@ -228,7 +228,7 @@ export class Database {
   }
 
   async getAttemptsByQuiz(quizId: string): Promise<QuizAttempt[]> {
-    const attemptIds = await this.getEdgeConfig(`attempts:quiz:${quizId}`) || [];
+    const attemptIds = await this.getEdgeConfig<string[]>(`attempts:quiz:${quizId}`) || [];
     const attempts = await Promise.all(
       attemptIds.map(id => this.getAttemptById(id))
     );

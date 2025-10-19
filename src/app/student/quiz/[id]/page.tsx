@@ -40,7 +40,6 @@ function TakeQuizPageContent() {
   const router = useRouter();
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [selected, setSelected] = useState<number[]>([]);
-  const [studentName, setStudentName] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [startedAtIso, setStartedAtIso] = useState<string | null>(null);
@@ -95,7 +94,7 @@ function TakeQuizPageContent() {
       const res = await fetch("/api/submissions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quizId: quiz.id, selectedIndices: selected, studentName, startedAtIso }),
+        body: JSON.stringify({ quizId: quiz.id, selectedIndices: selected, startedAtIso }),
       });
       if (!res.ok) throw new Error("Failed to submit answers");
       router.push(`/student/quiz/${quiz.id}/results`);
@@ -105,7 +104,7 @@ function TakeQuizPageContent() {
     } finally {
       setSubmitting(false);
     }
-  }, [quiz, selected, studentName, startedAtIso, router]);
+  }, [quiz, selected, startedAtIso, router]);
 
   useEffect(() => {
     if (remaining == null) return;
@@ -600,16 +599,6 @@ function TakeQuizPageContent() {
                 </div>
               </div>
 
-              {/* Student Name Input */}
-              <div className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
-                <label className="block text-sm font-medium mb-2 text-gray-700">Your name (optional)</label>
-                <input
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm"
-                  value={studentName}
-                  onChange={(e) => setStudentName(e.target.value)}
-                  placeholder="e.g., Alex"
-                />
-              </div>
             </div>
           </div>
         </div>

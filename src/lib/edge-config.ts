@@ -17,7 +17,7 @@ export class EdgeConfigDatabase {
   }
 
   // Generic CRUD operations
-  async set(key: string, value: any): Promise<void> {
+  async set(key: string, value: unknown): Promise<void> {
     try {
       await edgeConfig.set(key, value);
     } catch (error) {
@@ -26,9 +26,9 @@ export class EdgeConfigDatabase {
     }
   }
 
-  async get(key: string): Promise<any> {
+  async get<T = unknown>(key: string): Promise<T | null> {
     try {
-      return await edgeConfig.get(key);
+      return (await edgeConfig.get(key)) as T | null;
     } catch (error) {
       console.error('Error getting Edge Config:', error);
       return null;
@@ -45,7 +45,7 @@ export class EdgeConfigDatabase {
   }
 
   // Batch operations
-  async setMany(entries: Record<string, any>): Promise<void> {
+  async setMany(entries: Record<string, unknown>): Promise<void> {
     try {
       await edgeConfig.setMany(entries);
     } catch (error) {
@@ -54,18 +54,18 @@ export class EdgeConfigDatabase {
     }
   }
 
-  async getMany(keys: string[]): Promise<Record<string, any>> {
+  async getMany<T = unknown>(keys: string[]): Promise<Record<string, T>> {
     try {
-      return await edgeConfig.getMany(keys);
+      return (await edgeConfig.getMany(keys)) as Record<string, T>;
     } catch (error) {
       console.error('Error getting multiple Edge Config entries:', error);
-      return {};
+      return {} as Record<string, T>;
     }
   }
 
   // Index management
   async addToIndex(indexKey: string, value: string): Promise<void> {
-    const index = await this.get(indexKey) || [];
+    const index = (await this.get<string[]>(indexKey)) || [];
     if (!index.includes(value)) {
       index.push(value);
       await this.set(indexKey, index);
@@ -73,25 +73,25 @@ export class EdgeConfigDatabase {
   }
 
   async removeFromIndex(indexKey: string, value: string): Promise<void> {
-    const index = await this.get(indexKey) || [];
-    const newIndex = index.filter((item: string) => item !== value);
+    const index = (await this.get<string[]>(indexKey)) || [];
+    const newIndex = index.filter((item) => item !== value);
     await this.set(indexKey, newIndex);
   }
 
   // Search operations
-  async searchByPrefix(prefix: string): Promise<Record<string, any>> {
+  async searchByPrefix<T = unknown>(prefix: string): Promise<Record<string, T>> {
     try {
       // Edge Config doesn't support prefix search directly
       // We'll need to maintain our own indexes
-      const allKeys = await this.get('_all_keys') || [];
-      const matchingKeys = allKeys.filter((key: string) => key.startsWith(prefix));
+      const allKeys = (await this.get<string[]>('_all_keys')) || [];
+      const matchingKeys = allKeys.filter((key) => key.startsWith(prefix));
       
       if (matchingKeys.length === 0) return {};
       
-      return await this.getMany(matchingKeys);
+      return await this.getMany<T>(matchingKeys);
     } catch (error) {
       console.error('Error searching Edge Config:', error);
-      return {};
+      return {} as Record<string, T>;
     }
   }
 

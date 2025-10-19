@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth, security } from "@/lib/security";
 import { readQuizzes } from "@/lib/storage";
-import { readSubmissions, writeSubmissions } from "@/lib/storage";
+import { readSubmissions, writeSubmissions, type Submission } from "@/lib/storage";
 
 export async function GET(request: NextRequest) {
   try {
@@ -46,9 +46,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
     }
 
-    // Validate quiz is active
-    // If the quiz object has isActive flag, enforce it; otherwise allow
-    if ((quiz as any).isActive === false) {
+    // Validate quiz is active if such a flag exists on persisted data
+    if ((quiz as unknown as { isActive?: boolean })?.isActive === false) {
       return NextResponse.json({ error: "Quiz is not active" }, { status: 400 });
     }
 
@@ -82,26 +81,20 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Create submission record (file-based storage shape)
-    const submission = {
+    // Store minimal submission shape compatible with current readers
+    const submission: Submission = {
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       quizId: String(quizId),
       selectedIndices: normalized,
       score: finalScore,
       total: totalQuestions,
       createdAt: submittedAt.toISOString(),
-      // Optional fields for compatibility
+      // keep optional for legacy UIs
       studentName: user.name,
-      studentEmail: user.email,
-      startedAt,
-      submittedAt,
-      timeSpent,
-      correctAnswers,
-      totalQuestions,
-    } as any;
+    };
 
-    const existing = await readSubmissions();
-    existing.push(submission as any);
+    const existing: Submission[] = await readSubmissions();
+    existing.push(submission);
     await writeSubmissions(existing);
 
     // Log security event

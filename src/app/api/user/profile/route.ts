@@ -40,7 +40,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Update user
-    const updates: any = {};
+    const updates: Partial<{ name: string; email: string }> = {};
     if (name) updates.name = security.sanitizeInput(name);
     if (email) updates.email = email.toLowerCase();
 

@@ -183,7 +183,7 @@ export class SecurityManager {
   }
 
   // Audit logging
-  async logSecurityEvent(event: string, userId: string, details: any): Promise<void> {
+  async logSecurityEvent(event: string, userId: string, details: Record<string, unknown>): Promise<void> {
     const logEntry = {
       event,
       userId,

@@ -236,7 +236,7 @@ export class Database {
   }
 
   // Helper methods for Edge Config
-  private async setEdgeConfig(key: string, value: any): Promise<void> {
+  private async setEdgeConfig(key: string, value: unknown): Promise<void> {
     // In production, this would use Vercel Edge Config
     // For now, we'll use a simple in-memory store for development
     if (typeof window !== 'undefined') {
@@ -244,10 +244,10 @@ export class Database {
     }
   }
 
-  private async getEdgeConfig(key: string): Promise<any> {
+  private async getEdgeConfig<T = unknown>(key: string): Promise<T | null> {
     if (typeof window !== 'undefined') {
       const value = localStorage.getItem(key);
-      return value ? JSON.parse(value) : null;
+      return value ? (JSON.parse(value) as T) : null;
     }
     return null;
   }
@@ -259,7 +259,7 @@ export class Database {
   }
 
   private async addToIndex(indexKey: string, value: string): Promise<void> {
-    const index = await this.getEdgeConfig(indexKey) || [];
+    const index = (await this.getEdgeConfig<string[]>(indexKey)) || [];
     if (!index.includes(value)) {
       index.push(value);
       await this.setEdgeConfig(indexKey, index);
@@ -267,8 +267,8 @@ export class Database {
   }
 
   private async removeFromIndex(indexKey: string, value: string): Promise<void> {
-    const index = await this.getEdgeConfig(indexKey) || [];
-    const newIndex = index.filter((item: string) => item !== value);
+    const index = (await this.getEdgeConfig<string[]>(indexKey)) || [];
+    const newIndex = index.filter((item) => item !== value);
     await this.setEdgeConfig(indexKey, newIndex);
   }
 }

@@ -32,13 +32,13 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen p-8 flex items-center justify-center">
-      <form onSubmit={handleLogin} className="w-full max-w-sm border rounded p-6 space-y-4">
-        <h1 className="text-2xl font-bold">Login</h1>
+    <main className="min-h-screen p-8 flex items-center justify-center bg-gray-50">
+      <form onSubmit={handleLogin} className="w-full max-w-sm border border-gray-200 rounded-xl p-8 space-y-6 bg-white shadow-lg">
+        <h1 className="text-3xl font-bold text-gray-900 text-center">Login</h1>
         <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700">Email</label>
           <input
-            className="w-full border rounded px-3 py-2"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -47,9 +47,9 @@ export default function LoginPage() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Password</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700">Password</label>
           <input
-            className="w-full border rounded px-3 py-2"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -57,15 +57,15 @@ export default function LoginPage() {
             required
           />
         </div>
-        {error && <p className="text-red-600 text-sm">{error}</p>}
+        {error && <p className="text-red-600 text-sm bg-red-50 p-3 rounded-lg border border-red-200">{error}</p>}
         <button
           type="submit"
-          className="rounded bg-black text-white px-4 py-2 disabled:opacity-60 w-full"
+          className="rounded-lg bg-blue-600 text-white px-4 py-3 disabled:opacity-60 w-full hover:bg-blue-700 transition-colors font-medium"
           disabled={loading}
         >
           {loading ? "Signing in..." : "Sign in"}
         </button>
-        <div className="text-xs text-gray-600">
+        <div className="text-xs text-gray-600 bg-gray-50 p-3 rounded-lg">
           Demo users: student@example.com / student123, teacher@example.com / teacher123
         </div>
       </form>

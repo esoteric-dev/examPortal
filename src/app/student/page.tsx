@@ -26,31 +26,39 @@ export default function StudentHome() {
   }, []);
 
   return (
-    <main className="min-h-screen p-8">
-      <h1 className="text-3xl font-bold mb-4">Student Dashboard</h1>
-      <p className="text-gray-600 mb-6">Browse quizzes and start attempts.</p>
+    <main className="min-h-screen p-8 bg-gray-50">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold mb-4 text-gray-900">Student Dashboard</h1>
+        <p className="text-gray-600 mb-8 text-lg">Browse quizzes and start attempts.</p>
 
-      {loading ? (
-        <p className="text-gray-500">Loading quizzes...</p>
-      ) : quizzes.length === 0 ? (
-        <div className="rounded-xl border p-6">
-          <p className="text-gray-500">No quizzes available yet.</p>
-        </div>
-      ) : (
-        <ul className="space-y-3">
-          {quizzes.map((q) => (
-            <li key={q.id} className="border rounded p-4">
-              <div className="font-medium">{q.title}</div>
-              {q.description && (
-                <div className="text-sm text-gray-600">{q.description}</div>
-              )}
-              <a className="text-sm text-blue-600 underline mt-2 inline-block" href={`/student/quiz/${q.id}`}>
-                Take quiz →
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+        {loading ? (
+          <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-500">Loading quizzes...</p>
+          </div>
+        ) : quizzes.length === 0 ? (
+          <div className="rounded-xl border border-gray-200 p-8 bg-white shadow-sm">
+            <p className="text-gray-500 text-center">No quizzes available yet.</p>
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {quizzes.map((q) => (
+              <div key={q.id} className="border border-gray-200 rounded-xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow">
+                <div className="font-semibold text-lg text-gray-900 mb-2">{q.title}</div>
+                {q.description && (
+                  <div className="text-sm text-gray-600 mb-4">{q.description}</div>
+                )}
+                <a 
+                  className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm" 
+                  href={`/student/quiz/${q.id}`}
+                >
+                  Take quiz →
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </main>
   );
 }

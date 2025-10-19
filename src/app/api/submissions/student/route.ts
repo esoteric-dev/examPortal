@@ -23,8 +23,8 @@ export async function GET(request: NextRequest) {
       return false;
     });
 
-    // Sort by creation/submission date (newest first)
-    mine.sort((a, b) => new Date((b as any).createdAt || (b as any).submittedAt || 0).getTime() - new Date((a as any).createdAt || (a as any).submittedAt || 0).getTime());
+    // Sort by creation date (newest first)
+    mine.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     return NextResponse.json(mine);
   } catch (error) {

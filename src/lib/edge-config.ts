@@ -99,8 +99,8 @@ export class EdgeConfigDatabase {
   async cleanup(): Promise<void> {
     try {
       // Remove expired entries, old submissions, etc.
-      const now = new Date();
-      const cutoffDate = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000)); // 30 days ago
+      // const now = new Date();
+      // const cutoffDate = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000)); // 30 days ago
       
       // This would need to be implemented based on your cleanup requirements
       console.log('Cleanup operation completed');

@@ -1,14 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const message = searchParams.get('message');
+    if (message) {
+      setSuccessMessage(message);
+    }
+  }, [searchParams]);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -57,6 +67,11 @@ export default function LoginPage() {
             required
           />
         </div>
+        {successMessage && (
+          <div className="text-green-600 text-sm bg-green-50 p-3 rounded-lg border border-green-200">
+            {successMessage}
+          </div>
+        )}
         {error && <p className="text-red-600 text-sm bg-red-50 p-3 rounded-lg border border-red-200">{error}</p>}
         <button
           type="submit"
@@ -65,6 +80,15 @@ export default function LoginPage() {
         >
           {loading ? "Signing in..." : "Sign in"}
         </button>
+        <div className="text-center">
+          <p className="text-gray-600">
+            Don&apos;t have an account?{" "}
+            <Link href="/signup" className="text-blue-600 hover:text-blue-700 font-medium">
+              Sign up
+            </Link>
+          </p>
+        </div>
+        
         <div className="text-xs text-gray-600 bg-gray-50 p-3 rounded-lg space-y-2">
           <div className="font-semibold text-gray-800">Demo Accounts:</div>
           <div>• student@example.com / student123 (Regular)</div>
@@ -76,6 +100,23 @@ export default function LoginPage() {
         </div>
       </form>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen p-8 flex items-center justify-center bg-gray-50">
+        <div className="w-full max-w-sm border border-gray-200 rounded-xl p-8 space-y-6 bg-white shadow-lg">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-500">Loading...</p>
+          </div>
+        </div>
+      </main>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }
 

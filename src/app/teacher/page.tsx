@@ -23,6 +23,13 @@ export default function TeacherHome() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [importing, setImporting] = useState(false);
+  const [showAddTeacher, setShowAddTeacher] = useState(false);
+  const [teacherForm, setTeacherForm] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
+  const [addingTeacher, setAddingTeacher] = useState(false);
 
   async function fetchQuizzes() {
     const res = await fetch("/api/quizzes");
@@ -96,11 +103,49 @@ export default function TeacherHome() {
     }
   }
 
+  async function handleAddTeacher(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setAddingTeacher(true);
+    
+    try {
+      const res = await fetch("/api/teachers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(teacherForm),
+      });
+      
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data?.error || "Failed to add teacher");
+      }
+      
+      // Reset form and hide modal
+      setTeacherForm({ name: "", email: "", password: "" });
+      setShowAddTeacher(false);
+      setError(null);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setAddingTeacher(false);
+    }
+  }
+
   return (
     <main className="min-h-screen p-8 bg-gray-50">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-2 text-gray-900">Teacher Dashboard</h1>
-        <p className="text-gray-600 mb-8 text-lg">Create new quizzes and manage them.</p>
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-4xl font-bold mb-2 text-gray-900">Teacher Dashboard</h1>
+            <p className="text-gray-600 text-lg">Create new quizzes and manage them.</p>
+          </div>
+          <button
+            onClick={() => setShowAddTeacher(true)}
+            className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
+          >
+            Add Teacher
+          </button>
+        </div>
 
       <form onSubmit={handleCreate} className="rounded-xl border border-gray-200 p-8 mb-8 space-y-6 bg-white shadow-sm">
         <div className="flex items-center justify-between">
@@ -267,6 +312,84 @@ export default function TeacherHome() {
         )}
       </section>
       </div>
+
+      {/* Add Teacher Modal */}
+      {showAddTeacher && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">Add New Teacher</h3>
+              <button
+                onClick={() => setShowAddTeacher(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <form onSubmit={handleAddTeacher} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Full Name</label>
+                <input
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  type="text"
+                  value={teacherForm.name}
+                  onChange={(e) => setTeacherForm(prev => ({ ...prev, name: e.target.value }))}
+                  placeholder="John Doe"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Email</label>
+                <input
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  type="email"
+                  value={teacherForm.email}
+                  onChange={(e) => setTeacherForm(prev => ({ ...prev, email: e.target.value }))}
+                  placeholder="john@example.com"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Password</label>
+                <input
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  type="password"
+                  value={teacherForm.password}
+                  onChange={(e) => setTeacherForm(prev => ({ ...prev, password: e.target.value }))}
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+              
+              {error && (
+                <div className="text-red-600 text-sm bg-red-50 p-3 rounded-lg border border-red-200">
+                  {error}
+                </div>
+              )}
+              
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowAddTeacher(false)}
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={addingTeacher}
+                  className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-60 transition-colors"
+                >
+                  {addingTeacher ? "Adding..." : "Add Teacher"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

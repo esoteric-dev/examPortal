@@ -8,5 +8,12 @@
     "email": "teacher@example.com",
     "password": "teacher123",
     "role": "teacher"
+  },
+  {
+    "email": "premium@example.com",
+    "password": "premium123",
+    "role": "student",
+    "isPremium": true,
+    "premiumExpiresAt": "2025-12-31T23:59:59.999Z"
   }
 ]

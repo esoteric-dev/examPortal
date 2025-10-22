@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useUser } from "@/contexts/UserContext";
+import BannerAd from "@/components/BannerAd";
 
 // Client-only wrapper to prevent hydration mismatches
 function ClientOnly({ children }: { children: React.ReactNode }) {
@@ -38,6 +40,7 @@ type Quiz = {
 function TakeQuizPageContent() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
+  const { isPremium } = useUser();
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [selected, setSelected] = useState<number[]>([]);
   const [submitting, setSubmitting] = useState(false);
@@ -438,15 +441,32 @@ function TakeQuizPageContent() {
   return (
     <main className={`min-h-screen p-8 ${isFullscreen ? 'bg-white' : 'bg-gray-50'}`}>
       <div className="max-w-6xl mx-auto">
+        {/* Top Banner Ad - Only show for non-premium users */}
+        {!isPremium && (
+          <div className="mb-6">
+            <BannerAd position="top" className="mb-4" />
+          </div>
+        )}
+        
         {/* Header Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-3xl font-bold text-gray-900">{quiz.title}</h1>
-            {enteringFullscreen && (
-              <div className="px-4 py-2 bg-blue-100 text-blue-800 rounded-lg border border-blue-200">
-                Entering fullscreen...
-              </div>
-            )}
+            <div className="flex items-center gap-3">
+              {isPremium && (
+                <div className="px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg border border-yellow-300 shadow-lg">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">👑</span>
+                    <span className="font-semibold">Premium</span>
+                  </div>
+                </div>
+              )}
+              {enteringFullscreen && (
+                <div className="px-4 py-2 bg-blue-100 text-blue-800 rounded-lg border border-blue-200">
+                  Entering fullscreen...
+                </div>
+              )}
+            </div>
           </div>
           {quiz.description && (
             <p className="text-gray-600 mb-4 text-lg">{quiz.description}</p>
@@ -559,6 +579,13 @@ function TakeQuizPageContent() {
           {/* Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-8">
+              {/* Sidebar Banner Ad - Only show for non-premium users */}
+              {!isPremium && (
+                <div className="mb-6">
+                  <BannerAd position="sidebar" />
+                </div>
+              )}
+              
               {/* Question Palette */}
               <div className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm mb-6">
                 <div className="text-sm font-medium mb-3 text-gray-900">Question Palette</div>
@@ -602,6 +629,13 @@ function TakeQuizPageContent() {
             </div>
           </div>
         </div>
+        
+        {/* Bottom Banner Ad - Only show for non-premium users */}
+        {!isPremium && (
+          <div className="mt-8">
+            <BannerAd position="bottom" />
+          </div>
+        )}
       </div>
     </main>
   );

@@ -65,8 +65,14 @@ export default function LoginPage() {
         >
           {loading ? "Signing in..." : "Sign in"}
         </button>
-        <div className="text-xs text-gray-600 bg-gray-50 p-3 rounded-lg">
-          Demo users: student@example.com / student123, teacher@example.com / teacher123
+        <div className="text-xs text-gray-600 bg-gray-50 p-3 rounded-lg space-y-2">
+          <div className="font-semibold text-gray-800">Demo Accounts:</div>
+          <div>• student@example.com / student123 (Regular)</div>
+          <div>• teacher@example.com / teacher123 (Teacher)</div>
+          <div className="flex items-center gap-1">
+            <span className="text-yellow-600">👑</span>
+            <span className="font-semibold text-yellow-700">premium@example.com / premium123 (Premium)</span>
+          </div>
         </div>
       </form>
     </main>

@@ -6,6 +6,8 @@ export interface User {
   role: 'student' | 'teacher' | 'admin';
   createdAt: string;
   lastLoginAt?: string;
+   isPremium?: boolean;
+  premiumExpiresAt?: string;
 }
 
 export interface Quiz {

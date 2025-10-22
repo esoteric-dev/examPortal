@@ -93,6 +93,8 @@ export class SecurityManager {
           name: found ? legacy.email.split('@')[0] : legacy.email.split('@')[0],
           role: legacy.role as User['role'],
           createdAt: new Date().toISOString(),
+          isPremium: found?.isPremium || false,
+          premiumExpiresAt: found?.premiumExpiresAt,
         };
         return synthesized;
       } catch {
@@ -102,6 +104,8 @@ export class SecurityManager {
           name: legacy.email.split('@')[0],
           role: legacy.role as User['role'],
           createdAt: new Date().toISOString(),
+          isPremium: false,
+          premiumExpiresAt: undefined,
         };
         return synthesized;
       }

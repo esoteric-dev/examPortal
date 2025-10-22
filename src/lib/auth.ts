@@ -7,6 +7,8 @@ export type User = {
   email: string;
   password: string; // plain for demo only
   role: Role;
+  isPremium?: boolean;
+  premiumExpiresAt?: string;
 };
 
 const dataDir = path.join(process.cwd(), "data");
